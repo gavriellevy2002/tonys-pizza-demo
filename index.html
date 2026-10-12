@@ -3,254 +3,294 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Taste Run — Tony's Pizza demo</title>
-<meta name="description" content="Clickable demo: a pizzeria funds a campaign, real visitors come in, the owner approves and pays. Example data only.">
-<meta property="og:title" content="Taste Run — Tony's Pizza demo">
-<meta property="og:description" content="Clickable demo of a visit marketplace for local businesses. Example data only.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23B7261B'/%3E%3Cpath d='M32 52 L14 20 Q32 10 50 20 Z' fill='%23F4B63F'/%3E%3C/svg%3E">
+<title>Taste Run — visit marketplace demo</title>
+<meta name="description" content="Clickable demo: local businesses fund real visits, visitors get paid for completing them. Example data only.">
+<meta property="og:title" content="Taste Run — visit marketplace demo">
+<meta property="og:description" content="Pizza, burgers, groceries, spas, contractors: real visits, honest private feedback. Example data only.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF5A3C'/%3E%3Cpath d='M32 50s14-12 14-24a14 14 0 0 0-28 0c0 12 14 24 14 24z' fill='%23fff'/%3E%3Ccircle cx='32' cy='26' r='6' fill='%23FF5A3C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,700&family=DM+Sans:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap">
 <style>
 :root{
-  --red:#B7261B; --red2:#E0502F; --gold:#F4B63F; --cream:#FFF7EA; --paper:#FFFFFF; --ink:#2A1A14; --muted:#7A6A60; --line:#EDE1D1;
-  --green:#2E7D4F; --green-soft:#E3F2E8; --red-soft:#FCE9E4; --shadow:0 8px 24px rgba(80,30,10,.10);
-  --display:'Fraunces',Georgia,serif; --body:'DM Sans','Helvetica Neue',Arial,sans-serif;
+  --navy:#171B3A; --navy2:#262B5C; --coral:#FF5A3C; --coral2:#FF8A5B; --mint:#19B58A; --mint-soft:#DDF6EE;
+  --bg:#F5F6FB; --card:#fff; --ink:#171B3A; --muted:#6C7192; --line:#E6E8F2; --gold:#FFB020; --gold-soft:#FFF3D6; --coral-soft:#FFE8E2;
+  --display:'Sora',system-ui,sans-serif; --body:'DM Sans',system-ui,sans-serif;
+  --shadow:0 10px 30px rgba(23,27,58,.10);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{color-scheme:light}
-body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#FFE9C9 0%,#F6E3CC 40%,#EBD3B8 100%);background-color:#F3E2CC;color:var(--ink);font-family:var(--body);line-height:1.45;min-height:100vh;padding:18px 16px 40px}
-button{font:inherit;cursor:pointer;color:inherit}
-button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+body{margin:0;font-family:var(--body);color:var(--ink);line-height:1.45;min-height:100vh;padding:20px 16px 40px;
+  background:radial-gradient(900px 500px at 15% -10%,#FFD9CF 0%,transparent 60%),radial-gradient(900px 500px at 100% 0%,#D8DBFF 0%,transparent 55%),#EEF0FA}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .stage{max-width:430px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.top b{font-family:var(--display);font-size:1.25rem}
-.top small{color:var(--muted)}
-.switch{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:4px;gap:4px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.top b{font-family:var(--display);font-size:1.15rem}.top small{color:var(--muted)}
+.switch{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.7);border-radius:16px;padding:4px;gap:4px;border:1px solid var(--line)}
 .switch button{border:0;background:transparent;color:var(--muted);padding:12px 8px;border-radius:12px;font-weight:700}
-.switch button[aria-selected="true"]{background:var(--paper);color:var(--red);box-shadow:0 2px 8px rgba(80,30,10,.12)}
-.phone{background:var(--cream);border-radius:34px;overflow:hidden;box-shadow:0 24px 60px rgba(80,30,10,.28),0 0 0 9px #241712;display:flex;flex-direction:column;min-height:760px;position:relative;margin:9px}
-.hero{background:linear-gradient(160deg,var(--red) 0%,#8E1A12 100%);color:#fff;padding:20px 18px 26px;position:relative}
-.hero:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:18px;background:var(--cream);border-radius:22px 22px 0 0}
-.hero .bar{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo svg{flex:none}
-.logo .word{font-family:var(--display);font-weight:800;font-style:italic;font-size:1.55rem;line-height:1;letter-spacing:-.01em}
-.logo .tag{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85;display:block;margin-top:3px;font-family:var(--body);font-style:normal;font-weight:700}
-.hero p{margin:14px 0 0;opacity:.92;font-size:.95rem}
-.chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:99px;padding:6px 12px;font-size:.8rem;font-weight:700;white-space:nowrap}
-.body{padding:6px 18px 90px;display:flex;flex-direction:column;gap:14px;flex:1}
-h2{font-family:var(--display);font-weight:800;font-size:1.45rem;margin:0;line-height:1.1}
-h3{font-family:var(--display);font-weight:800;font-size:1.1rem;margin:0}
+.switch button[aria-selected="true"]{background:var(--navy);color:#fff;box-shadow:0 4px 12px rgba(23,27,58,.3)}
+.phone{background:var(--bg);border-radius:36px;overflow:hidden;box-shadow:0 30px 70px rgba(23,27,58,.35),0 0 0 9px #0E1128;display:flex;flex-direction:column;min-height:780px;position:relative;margin:9px}
+.scroll{flex:1;padding-bottom:84px}
+.hdr{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:20px 18px 34px;position:relative}
+.hdr:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:22px;background:var(--bg);border-radius:24px 24px 0 0}
+.brand{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.brand .l{display:flex;align-items:center;gap:10px}
+.brand b{font-family:var(--display);font-size:1.25rem;letter-spacing:-.01em}
+.chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:6px 12px;font-size:.78rem;font-weight:700;white-space:nowrap}
+.hdr h1{font-family:var(--display);font-size:1.55rem;line-height:1.15;margin:16px 0 4px;letter-spacing:-.02em}
+.hdr p{margin:0;opacity:.85;font-size:.92rem}
+.search{margin:14px 0 0;display:flex;align-items:center;gap:8px;background:#fff;color:var(--muted);border-radius:16px;padding:12px 14px;font-size:.92rem}
+.body{padding:0 18px;display:flex;flex-direction:column;gap:16px}
+h2{font-family:var(--display);font-size:1.25rem;margin:0;letter-spacing:-.01em}
+h3{font-family:var(--display);font-size:1rem;margin:0}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.muted{color:var(--muted);font-size:.9rem}
-.pill{display:inline-block;padding:4px 10px;border-radius:99px;font-size:.75rem;font-weight:700;background:var(--green-soft);color:var(--green);white-space:nowrap}
-.pill.red{background:var(--red-soft);color:var(--red)}
-.pill.gold{background:#FFF0CC;color:#8A5A00}
-.card{background:var(--paper);border-radius:22px;box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden}
-.pad{padding:14px}
-button.card{width:100%;text-align:left;padding:0;border:1px solid var(--line);transition:transform .15s}
-button.card:active{transform:scale(.99)}
-.pizza-hero{height:140px;background:linear-gradient(135deg,#FFD58A,#F4A340);display:grid;place-items:center;position:relative}
-.pizza-hero .badge{position:absolute;top:10px;left:10px}
-.money{font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--green)}
-.primary{background:linear-gradient(180deg,var(--red2),var(--red));color:#fff;border:0;border-radius:16px;padding:15px;font-weight:700;width:100%;box-shadow:0 6px 16px rgba(183,38,27,.35);font-size:1rem}
-.primary:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
-.primary.small{width:auto;padding:9px 14px;border-radius:12px;font-size:.88rem;box-shadow:none}
-.ghost{background:var(--paper);border:1.5px solid var(--line);color:var(--ink);border-radius:16px;padding:13px;font-weight:700;width:100%}
-.back{background:none;border:0;color:var(--muted);padding:0;width:max-content;font-weight:700}
-.step{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--paper);border:1.5px solid var(--line);border-radius:20px}
-.step.done{border-color:var(--green);background:#F7FCF9}
+.muted{color:var(--muted);font-size:.88rem}
+.sec{display:flex;justify-content:space-between;align-items:baseline}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cat{background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.72rem;font-weight:700;color:var(--ink)}
+.cat i{width:100%;aspect-ratio:1;border-radius:20px;display:grid;place-items:center;font-style:normal;font-size:1.7rem;box-shadow:0 6px 14px rgba(23,27,58,.14);transition:transform .15s}
+.cat:active i{transform:scale(.94)}
+.hscroll{display:flex;gap:12px;overflow-x:auto;margin:0 -18px;padding:2px 18px 10px;scroll-snap-type:x mandatory}
+.hscroll::-webkit-scrollbar{display:none}
+.feat{flex:none;width:240px;scroll-snap-align:start;border:0;padding:0;text-align:left;background:var(--card);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.art{height:112px;display:grid;place-items:center;font-size:3.6rem;position:relative}
+.art .pill{position:absolute;top:10px;left:10px}
+.pad{padding:12px 14px 14px}
+.reward{font-family:var(--display);font-weight:800;color:var(--mint)}
+.pill{display:inline-block;padding:4px 10px;border-radius:99px;font-size:.72rem;font-weight:700;background:var(--mint-soft);color:#0B7A5C;white-space:nowrap}
+.pill.coral{background:var(--coral-soft);color:#C23A1E}.pill.gold{background:var(--gold-soft);color:#8A5A00}.pill.dark{background:rgba(23,27,58,.85);color:#fff}
+.list{display:flex;flex-direction:column;gap:12px}
+.item{display:flex;gap:12px;align-items:center;background:var(--card);border-radius:20px;padding:10px;box-shadow:var(--shadow);border:0;text-align:left;width:100%}
+.item .th{flex:none;width:64px;height:64px;border-radius:16px;display:grid;place-items:center;font-size:1.9rem}
+.item .t{flex:1;min-width:0}
+.card{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:14px}
+.box{border-radius:18px;padding:13px 14px;font-size:.88rem;background:var(--mint-soft)}.box.coral{background:var(--coral-soft)}.box.gold{background:var(--gold-soft)}
+.btn{background:linear-gradient(180deg,var(--coral2),var(--coral));color:#fff;border:0;border-radius:16px;padding:15px;font-weight:700;width:100%;box-shadow:0 8px 18px rgba(255,90,60,.35);font-size:1rem}
+.btn:disabled{opacity:.4;box-shadow:none;cursor:not-allowed}
+.btn.sm{width:auto;padding:9px 14px;font-size:.85rem;border-radius:12px;box-shadow:none}
+.ghost{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:13px;font-weight:700;width:100%}
+.back{background:rgba(255,255,255,.18);border:0;color:#fff;border-radius:12px;padding:7px 12px;font-weight:700;font-size:.85rem}
+.step{display:flex;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:14px}
+.step.done{border-color:var(--mint);background:#F4FCF9}
 .step .n{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--line);font-weight:700;font-size:.85rem}
-.step.done .n{background:var(--green);color:#fff}
+.step.done .n{background:var(--mint);color:#fff}
 .step p{margin:2px 0 10px}
 .photos{display:flex;gap:10px}
-.photo{width:68px;height:68px;border-radius:16px;border:1.5px dashed #CDB99E;background:var(--cream);color:var(--muted);font-size:1.5rem;display:grid;place-items:center;overflow:hidden;padding:0}
-.photo.on{border:0;background:none}
+.photo{width:70px;height:70px;border-radius:16px;border:1.5px dashed #BFC4DE;background:#F0F2FA;color:var(--muted);font-size:.7rem;font-weight:700;display:grid;place-items:center;padding:4px;text-align:center}
+.photo.on{border:0;font-size:1.8rem;color:#fff}
 .stars{display:flex;gap:2px;margin-bottom:8px}
-.stars button{background:none;border:0;font-size:1.9rem;padding:0 2px;color:#E6D9C6;line-height:1}
+.stars button{background:none;border:0;font-size:1.9rem;padding:0 2px;color:#DADDEB;line-height:1}
 .stars button.on{color:var(--gold)}
-input[type=text],input[type=number],textarea{width:100%;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:14px;padding:12px;font:inherit}
-.box{background:var(--green-soft);border-radius:18px;padding:14px;font-size:.9rem}
-.box.red{background:var(--red-soft)}
-.box.gold{background:#FFF0CC}
+input[type=text],input[type=number],textarea{width:100%;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:14px;padding:12px;font:inherit}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:.8rem;color:var(--muted);font-weight:700}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{border-radius:18px;padding:14px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
-.stat span{font-size:.8rem;color:var(--muted)}
-.stat b{display:block;font-family:var(--display);font-size:1.8rem;line-height:1.1}
-.fb{border-top:1px solid var(--line);padding-top:12px;margin-top:12px;display:flex;flex-direction:column;gap:6px}
-.progress{height:10px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:6px}
-.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--green))}
-table{width:100%;border-collapse:collapse;font-size:.92rem;font-variant-numeric:tabular-nums}
-td{padding:8px 0;border-top:1px solid var(--line)}
-tr:first-child td{border-top:0}
-td:last-child{text-align:right}
-label.f{display:flex;flex-direction:column;gap:5px;font-size:.82rem;color:var(--muted);font-weight:700}
-.nav{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;padding:8px 10px 14px}
-.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted);font-size:.75rem;font-weight:700;padding:6px}
-.nav button[aria-selected="true"]{color:var(--red)}
-.flow{font-size:.85rem;color:var(--muted);border-left:3px solid var(--gold);padding-left:10px}
-.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:#241712;color:#fff;padding:12px 18px;border-radius:99px;font-weight:700;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:9;max-width:calc(100% - 32px);text-align:center}
+.stat{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--shadow)}
+.stat span{font-size:.78rem;color:var(--muted)}.stat b{display:block;font-family:var(--display);font-size:1.7rem;line-height:1.15}
+.progress{height:10px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--coral),var(--mint))}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-variant-numeric:tabular-nums}
+td{padding:8px 0;border-top:1px solid var(--line)}tr:first-child td{border-top:0}td:last-child{text-align:right}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.opt{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:8px 12px;font-weight:700;font-size:.82rem}
+.opt.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.nav{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding:8px 10px 14px}
+.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted);font-size:.72rem;font-weight:700;padding:6px}
+.nav button svg{display:block}.nav button[aria-selected="true"]{color:var(--coral)}
+.fb{border-top:1px solid var(--line);padding-top:10px;margin-top:10px;display:flex;flex-direction:column;gap:4px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:var(--navy);color:#fff;padding:12px 18px;border-radius:99px;font-weight:700;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:9;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.note{font-size:.78rem;color:#6B5A4E;text-align:center;padding:4px 8px}
-@media (max-width:480px){body{padding:0}.stage{gap:10px}.top,.switch,.note{margin-inline:16px}.top{margin-top:14px}.phone{margin:0;border-radius:0;box-shadow:none;min-height:calc(100vh - 150px)}}
+.note{font-size:.78rem;color:#555B80;text-align:center;padding:0 8px}
+@media (max-width:480px){body{padding:0}.top,.switch,.note{margin-inline:16px}.top{margin-top:14px}.phone{margin:0;border-radius:0;box-shadow:none}}
 </style>
 </head>
 <body>
 <div class="stage">
   <div class="top"><b>Taste Run</b><small>Interactive demo · example data</small></div>
   <div class="switch" role="tablist">
-    <button role="tab" id="tab-b" aria-selected="true">I'm the pizzeria</button>
-    <button role="tab" id="tab-v" aria-selected="false">I'm a visitor</button>
+    <button role="tab" id="tab-v" aria-selected="true">I'm a visitor</button>
+    <button role="tab" id="tab-b" aria-selected="false">I'm a business</button>
   </div>
   <div class="phone" id="phone"></div>
-  <p class="note">Walk it through: fund the campaign as the pizzeria, switch to visitor and complete the visit, switch back to approve and pay, then see the visitor's wallet. "Tony's Pizza" is a made-up business. Nothing is sent or paid. Rewards are for completing a verified visit, never for a rating or a public review.</p>
+  <p class="note">Try it: browse categories as a visitor and complete a visit, then switch to "I'm a business", launch your own campaign and approve and pay. All businesses and numbers are made up; nothing is sent or paid. Rewards are for a verified visit, never for a rating or a public review.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
-
 <script>
-var S={
-  tab:'b', bview:'create', vview:'list',
-  camp:{name:"Tony's Pizza",task:"Come in, enjoy a free pizza tray on us, snap 3 photos and answer a short private questionnaire.",reward:15,slots:20,tray:8,live:false},
+var CATS=[
+ {id:'pizza',n:'Pizza',e:'🍕',a:'#FF7A45',b:'#FF4E50',reward:15,proof:'a one-time code from the counter',photos:['Slice','Menu','Inside'],task:'Come in, enjoy a pizza on us, take 3 photos and answer a short private questionnaire.'},
+ {id:'burger',n:'Burgers',e:'🍔',a:'#FFB020',b:'#FF7A00',reward:14,proof:'a one-time code from the counter',photos:['Burger','Menu','Inside'],task:'Order the featured burger, take 3 photos and answer a short private questionnaire.'},
+ {id:'cafe',n:'Café & Bakery',e:'☕',a:'#B07A56',b:'#7A4B30',reward:10,proof:'your receipt',photos:['Drink','Pastry','Seating'],task:'Have a coffee and a pastry, photograph the place and tell us privately what you thought.'},
+ {id:'food',n:'Restaurants',e:'🍝',a:'#E0457B',b:'#B3205A',reward:25,proof:'your receipt',photos:['Dish','Menu','Table'],task:'Dine in, photograph your dish and the room, and answer a short private questionnaire.'},
+ {id:'grocery',n:'Grocery & Stores',e:'🛒',a:'#2DC48A',b:'#0E9F6E',reward:12,proof:'your receipt',photos:['Shelf','Fresh section','Checkout'],task:'Do a small shop, photograph shelves and checkout, and rate cleanliness and stock privately.'},
+ {id:'beauty',n:'Beauty & Spa',e:'💆',a:'#B26BFF',b:'#7A3FE0',reward:30,proof:'a one-time code from reception',photos:['Reception','Treatment room','Result'],task:'Take the intro service, photograph the space, and share private feedback on the experience.'},
+ {id:'build',n:'Construction & Home',e:'🏗️',a:'#4F8CFF',b:'#2B5FD9',reward:40,proof:'the signed estimate',photos:['Work area','Estimate','Crew arrival'],task:'Book a free estimate, let the contractor visit, and rate punctuality and clarity privately.'},
+ {id:'auto',n:'Auto & Services',e:'🚗',a:'#37C3D9',b:'#1A97B5',reward:25,proof:'your invoice',photos:['Front desk','Work done','Waiting area'],task:'Use the intro service, photograph the shop, and tell us privately how it went.'}
+];
+function cat(id){return CATS.filter(function(c){return c.id===id})[0]}
+var BIZ=[
+ {id:'tony',cat:'pizza',n:"Tony's Pizza",d:0.8,spots:6,r:15,e:'🍕',about:'Neighborhood slice shop, open until 10pm.'},
+ {id:'luigi',cat:'pizza',n:"Luigi's Brick Oven",d:2.3,spots:12,r:18,e:'🔥',about:'Wood-fired pies and garlic knots.'},
+ {id:'smash',cat:'burger',n:'Smash Shack',d:1.1,spots:9,r:14,e:'🍔',about:'Double smash burgers and shakes.'},
+ {id:'grill',cat:'burger',n:'Grill & Co.',d:3.0,spots:4,r:16,e:'🥓',about:'Burger bar with craft sodas.'},
+ {id:'bean',cat:'cafe',n:'Blue Bean Café',d:0.5,spots:15,r:10,e:'☕',about:'Specialty coffee and fresh pastries.'},
+ {id:'bagel',cat:'cafe',n:'Corner Bagel Co.',d:1.4,spots:0,r:8,e:'🥯',about:'Hand-rolled bagels, early opening.'},
+ {id:'olive',cat:'food',n:'Olive & Vine',d:2.0,spots:8,r:25,e:'🍝',about:'Italian dinner, family run.'},
+ {id:'sakura',cat:'food',n:'Sakura Kitchen',d:2.8,spots:7,r:22,e:'🍣',about:'Sushi and ramen.'},
+ {id:'fresh',cat:'grocery',n:'FreshMart Market',d:1.7,spots:20,r:12,e:'🥬',about:'Local supermarket, new produce section.'},
+ {id:'glow',cat:'beauty',n:'Glow Day Spa',d:3.4,spots:5,r:30,e:'💆',about:'Facials and massage, opening promo.'},
+ {id:'brick',cat:'build',n:'Brickwell Builders',d:5.0,spots:3,r:40,e:'🏗️',about:'Renovations and extensions. Free estimates.'},
+ {id:'chimney',cat:'build',n:'Clean Sweep Chimney',d:4.2,spots:4,r:35,e:'🧹',about:'Chimney cleaning and inspection.'},
+ {id:'lube',cat:'auto',n:'QuickLube Garage',d:2.6,spots:10,r:25,e:'🛠️',about:'Oil change and inspection.'}
+];
+var S={tab:'v',v:'home',cur:null,catf:null,
   stars:0,photos:[false,false,false],checked:false,feedback:'',reviewAsked:false,
-  wallet:0,withdrawn:0,paidVisits:0,
-  subs:[
-    {id:1,n:'Maya R.',stars:5,t:'Crust was great. Waited 15 min for the table though.',photo:3,status:'paid'},
-    {id:2,n:'Dan K.',stars:3,t:'Pizza was fine, a bit greasy. Menu was hard to read.',photo:2,status:'paid'},
-    {id:3,n:'Priya S.',stars:4,t:'Loved the garlic knots. Staff friendly, place was loud.',photo:3,status:'pending'}
-  ]
-};
-var FEE=0.25, phone=document.getElementById('phone'), toastEl=document.getElementById('toast'), tt;
+  wallet:0,withdrawn:0,pending:[],paid:[],
+  mine:null,bsub:null,bview:'setup',bcat:'pizza',
+  bform:{name:"Maria's Pizza Place",reward:15,slots:20,task:''}};
+var FEE=0.25,phone=document.getElementById('phone'),toastEl=document.getElementById('toast'),tt;
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
 function usd(n){var v=Math.round(n*100)/100;return '$'+(v%1===0?v:v.toFixed(2))}
-function stars(n){return '<span style="color:var(--gold)">'+'&#9733;'.repeat(n)+'</span><span style="color:#E6D9C6">'+'&#9733;'.repeat(5-n)+'</span>'}
-function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2200)}
-
-/* logo: red roundel with a pepperoni slice */
-function logo(size){return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#FFF7EA"/><circle cx="32" cy="32" r="27" fill="#B7261B" stroke="#F4B63F" stroke-width="2.5"/><path d="M32 51 L15 22 Q32 13 49 22 Z" fill="#F4B63F"/><path d="M15 22 Q32 13 49 22" fill="none" stroke="#D98A1E" stroke-width="5" stroke-linecap="round"/><circle cx="27" cy="27" r="3.4" fill="#C93A2A"/><circle cx="37" cy="29" r="3.2" fill="#C93A2A"/><circle cx="32" cy="38" r="3" fill="#C93A2A"/></svg>'}
-function pizzaArt(size){return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="62" r="52" fill="#00000018"/><circle cx="60" cy="58" r="52" fill="#D9963A"/><circle cx="60" cy="58" r="45" fill="#E14B2C"/><circle cx="60" cy="58" r="41" fill="#F7C65A"/><g fill="#C2271B"><circle cx="42" cy="44" r="7"/><circle cx="75" cy="42" r="7"/><circle cx="60" cy="68" r="7"/><circle cx="38" cy="72" r="6"/><circle cx="82" cy="70" r="6"/></g><g fill="#3E8F57"><ellipse cx="58" cy="44" rx="5" ry="2.6" transform="rotate(-30 58 44)"/><ellipse cx="50" cy="82" rx="5" ry="2.6" transform="rotate(20 50 82)"/><ellipse cx="88" cy="56" rx="5" ry="2.6" transform="rotate(60 88 56)"/></g></svg>'}
-function miniPhoto(i){var c=[['#F7C65A','#E14B2C'],['#FFF0CC','#B7261B'],['#E3F2E8','#2E7D4F']][i];return '<svg width="68" height="68" viewBox="0 0 68 68" aria-hidden="true"><rect width="68" height="68" fill="'+c[0]+'"/><circle cx="34" cy="34" r="18" fill="'+c[1]+'" opacity=".85"/><circle cx="34" cy="34" r="9" fill="'+c[0]+'"/></svg>'}
-var icoPin='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.3 7-12a7 7 0 1 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>';
-var icoWallet='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1.2"/></svg>';
-
-function hero(sub,chip){return '<div class="hero"><div class="bar"><div class="logo">'+logo(46)+'<div><span class="word">Tony\'s Pizza</span><span class="tag">'+sub+'</span></div></div>'+(chip?'<span class="chip">'+chip+'</span>':'')+'</div></div>'}
+function stars(n){return '<span style="color:var(--gold)">'+'★'.repeat(n)+'</span><span style="color:#DADDEB">'+'★'.repeat(5-n)+'</span>'}
+function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2300)}
+function biz(id){return BIZ.concat(S.mine?[S.mine]:[]).filter(function(b){return b.id===id})[0]}
+function grad(c){var k=cat(c);return 'linear-gradient(135deg,'+k.a+','+k.b+')'}
+function logo(s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="18" fill="#FF5A3C"/><path d="M32 52s15-12.5 15-25a15 15 0 0 0-30 0c0 12.5 15 25 15 25z" fill="#fff"/><path d="M26 27l4 4 8-9" fill="none" stroke="#FF5A3C" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
+var I={home:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+ grid:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>',
+ wallet:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1.2"/></svg>',
+ search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>'};
 
 function render(){
-  document.getElementById('tab-b').setAttribute('aria-selected',S.tab==='b');
   document.getElementById('tab-v').setAttribute('aria-selected',S.tab==='v');
-  phone.innerHTML=S.tab==='b'?business():visitor();
+  document.getElementById('tab-b').setAttribute('aria-selected',S.tab==='b');
+  phone.innerHTML=S.tab==='v'?visitor():business();
   bind();
 }
-
-function business(){
-  var c=S.camp;
-  if(S.bview==='create'){
-    var budget=c.slots*c.reward, fee=budget*FEE, trays=c.slots*c.tray;
-    return hero('Business dashboard','New campaign')+'<div class="body">'+
-    '<h2>Launch your first campaign</h2>'+
-    '<p class="flow">Fill this in once. Real people start coming through your door, and you only pay for completed, verified visits.</p>'+
-    '<label class="f">Business name<input type="text" id="c-name" value="'+esc(c.name)+'"></label>'+
-    '<label class="f">What should the visitor do?<textarea id="c-task" rows="3">'+esc(c.task)+'</textarea></label>'+
-    '<div class="stats"><label class="f">Reward per visit ($)<input type="number" id="c-reward" min="5" max="100" value="'+c.reward+'"></label>'+
-    '<label class="f">Number of visits<input type="number" id="c-slots" min="1" max="200" value="'+c.slots+'"></label></div>'+
-    '<label class="f">Food you give each visitor (your cost, $)<input type="number" id="c-tray" min="0" max="100" value="'+c.tray+'"></label>'+
-    '<div class="card pad"><h3>What visitors upload</h3><p class="muted" style="margin:6px 0 0">A one-time code from your staff (or a receipt) as proof they were there, 3 photos (food, menu, inside), and a short private questionnaire.</p></div>'+
-    '<div class="card pad"><h3>What you pay</h3><table style="margin-top:6px"><tr><td>Visitor rewards ('+c.slots+' &times; '+usd(c.reward)+')</td><td>'+usd(budget)+'</td></tr><tr><td>Platform fee '+(FEE*100)+'%</td><td>'+usd(fee)+'</td></tr><tr><td><b>Paid to Taste Run</b></td><td><b>'+usd(budget+fee)+'</b></td></tr><tr><td class="muted">Food you serve (your own cost)</td><td class="muted">'+usd(trays)+'</td></tr></table></div>'+
-    '<div class="box red"><b>Fair by design.</b> Rewards are for completing the visit. They are never tied to a rating or to posting a review, so visitors can be honest and still get paid.</div>'+
-    '<button class="primary" data-b="fund">Fund '+usd(budget+fee)+' with Visa &bull;&bull;&bull;&bull; 4242 (demo)</button></div>';
-  }
-  var paidList=S.subs.filter(function(s){return s.status==='paid'}), pending=S.subs.filter(function(s){return s.status==='pending'});
-  var done=paidList.length, avg=(S.subs.reduce(function(a,v){return a+v.stars},0)/S.subs.length).toFixed(1);
-  var budget=c.slots*c.reward, fee=budget*FEE, paidOut=done*c.reward;
-  var pendHtml=pending.length? pending.map(function(s){return '<div class="card pad" style="margin-top:10px"><div class="row"><b>'+esc(s.n)+'</b><span>'+stars(s.stars)+'</span></div><p style="margin:6px 0">'+esc(s.t)+'</p><div class="row"><span class="muted">'+s.photo+' photos &middot; code verified</span><button class="primary small" data-approve="'+s.id+'">Approve &amp; pay '+usd(c.reward)+'</button></div></div>'}).join('')
-    : '<p class="muted" style="margin:8px 0 0">Nothing waiting. New completed visits show up here.</p>';
-  var paidHtml=paidList.map(function(s){return '<div class="fb"><div class="row"><b>'+esc(s.n)+' <span class="pill">Paid</span></b><span>'+stars(s.stars)+'</span></div><span>'+esc(s.t)+'</span><span class="muted">'+s.photo+' photos</span></div>'}).join('');
-  return hero('Business dashboard','Campaign live')+'<div class="body">'+
-  '<div class="card pad"><div class="row"><h3>Visits completed</h3><b>'+done+' / '+c.slots+'</b></div><div class="progress"><i style="width:'+Math.max(4,done/c.slots*100)+'%"></i></div></div>'+
-  '<div class="stats"><div class="stat"><span>Waiting for you</span><b>'+pending.length+'</b></div><div class="stat"><span>Private rating</span><b>'+avg+' &#9733;</b></div></div>'+
-  '<div class="card pad"><h3>Money</h3><table style="margin-top:6px"><tr><td>Funded to Taste Run</td><td>'+usd(budget+fee)+'</td></tr><tr><td>Paid to visitors so far</td><td>'+usd(paidOut)+'</td></tr><tr><td>Platform fee</td><td>'+usd(fee)+'</td></tr><tr><td>Held for remaining visits</td><td>'+usd(budget-paidOut)+'</td></tr></table></div>'+
-  '<div><h3>Review &amp; pay</h3>'+pendHtml+'</div>'+
-  '<div class="card pad"><h3>Paid visits &amp; private feedback</h3>'+paidHtml+'</div>'+
-  '<div class="box gold">Google reviews are only ever invited at the end, unpaid. Here you see the visit and the private feedback.</div>'+
-  '<button class="ghost" data-b="edit">Edit campaign</button></div>';
-}
-
-function nav(v){return '<div class="nav"><button data-vv="list" aria-selected="'+(v!=='wallet')+'">'+icoPin+'Visits</button><button data-vv="wallet" aria-selected="'+(v==='wallet')+'">'+icoWallet+'Wallet '+usd(S.wallet)+'</button></div>'}
-
+function head(title,sub,chip,back){return '<div class="hdr"><div class="brand"><div class="l">'+(back?'<button class="back" data-go="'+back+'">← Back</button>':logo(38)+'<b>Taste Run</b>')+'</div>'+(chip?'<span class="chip">'+chip+'</span>':'')+'</div>'+(title?'<h1>'+title+'</h1>':'')+(sub?'<p>'+sub+'</p>':'')+'</div>'}
+function nav(v){return '<div class="nav"><button data-go="home" aria-selected="'+(v==='home')+'">'+I.home+'Home</button><button data-go="cats" aria-selected="'+(v==='cats'||v==='cat'||v==='biz'||v==='visit'||v==='done')+'">'+I.grid+'Categories</button><button data-go="wallet" aria-selected="'+(v==='wallet')+'">'+I.wallet+'Wallet '+usd(S.wallet)+'</button></div>'}
+function bizItem(b){var k=cat(b.cat);return '<button class="item" data-biz="'+b.id+'"><div class="th" style="background:'+grad(b.cat)+'">'+b.e+'</div><div class="t"><div class="row"><h3>'+esc(b.n)+'</h3><span class="reward">'+usd(b.r)+'</span></div><div class="muted">'+k.n+' · '+b.d+' mi</div><div style="margin-top:4px">'+(b.spots>0?'<span class="pill">'+b.spots+' spots left</span>':'<span class="pill coral">Full</span>')+'</div></div></button>'}
 function visitor(){
-  var v=S.vview, c=S.camp;
-  if(v==='wallet') return hero('Taste Run visitor','')+walletView()+nav(v);
-  if(v==='list'){
-    var left=c.slots-S.subs.length;
-    return hero('Taste Run visitor','Jackson, NJ')+'<div class="body">'+
-    '<h2>Eat well, get paid, be honest.</h2><p class="muted" style="margin:0">Try local places and tell them what you really think. You are paid for the visit, not for the rating.</p>'+
-    (c.live?'<button class="card" data-go="task"><div class="pizza-hero"><span class="badge pill gold">'+left+' spots left</span>'+pizzaArt(118)+'</div><div class="pad"><div class="row"><h3>'+esc(c.name)+'</h3><span class="money">'+usd(c.reward)+'</span></div><div class="row"><span class="muted">Pizzeria &middot; 0.8 mi</span><span class="muted">Free food + reward</span></div></div></button>'
-     :'<div class="box red">No campaign is live yet. Switch to "I\'m the pizzeria", fund the campaign, then come back.</div>')+
-    '<div class="card pad" style="opacity:.55"><div class="row"><b>Corner Bagel Co.</b><span class="pill red">Full</span></div><span class="muted">Bakery &middot; 1.4 mi</span></div>'+
-    '<div class="card pad" style="opacity:.55"><div class="row"><b>Hearth &amp; Grill</b><span class="pill gold">Opens Friday</span></div><span class="muted">Restaurant &middot; 2.1 mi</span></div></div>'+nav(v);
+  var v=S.v;
+  if(v==='wallet') return '<div class="scroll">'+head('My wallet','Paid for completed visits, never for a rating.')+walletView()+'</div>'+nav(v);
+  if(v==='home'){
+    var all=(S.mine?[S.mine]:[]).concat(BIZ).filter(function(b){return b.spots>0});
+    var tiles=CATS.map(function(c){return '<button class="cat" data-cat="'+c.id+'"><i style="background:'+grad(c.id)+'">'+c.e+'</i>'+c.n.split(' ')[0]+'</button>'}).join('');
+    var feat=all.slice(0,6).map(function(b){return '<button class="feat" data-biz="'+b.id+'"><div class="art" style="background:'+grad(b.cat)+'"><span class="pill dark">'+(b.id==='mine'?'New · your campaign':b.spots+' spots')+'</span>'+b.e+'</div><div class="pad"><div class="row"><h3>'+esc(b.n)+'</h3><span class="reward">'+usd(b.r)+'</span></div><div class="muted">'+cat(b.cat).n+' · '+b.d+' mi</div></div></button>'}).join('');
+    var near=all.slice().sort(function(a,b){return a.d-b.d}).slice(0,4).map(bizItem).join('');
+    return '<div class="scroll">'+head('Eat, visit, get paid.','Try local places and give honest feedback.','Jackson, NJ')+
+    '<div class="body"><div class="search" style="margin-top:-6px;box-shadow:var(--shadow)">'+I.search+' Search pizza, spa, contractors…</div>'+
+    '<div><div class="sec"><h2>Categories</h2><button class="muted" style="background:none;border:0;font-weight:700;color:var(--coral)" data-go="cats">See all</button></div><div class="grid" style="margin-top:12px">'+tiles+'</div></div>'+
+    '<div><div class="sec"><h2>Featured visits</h2></div><div class="hscroll" style="margin-top:10px">'+feat+'</div></div>'+
+    '<div><h2>Closest to you</h2><div class="list" style="margin-top:12px">'+near+'</div></div>'+
+    '<div class="box"><b>Fair by design.</b> You are paid for completing the visit. The reward never depends on your rating or on posting a review.</div></div></div>'+nav(v);
   }
-  if(v==='task') return hero('Taste Run visitor','')+'<div class="body"><button class="back" data-go="list">&larr; Back</button>'+
-    '<div class="card"><div class="pizza-hero" style="height:120px">'+pizzaArt(100)+'</div><div class="pad"><h2>'+esc(c.name)+'</h2><p class="muted" style="margin:6px 0 0">Pizzeria &middot; 0.8 mi &middot; open today until 10pm</p></div></div>'+
-    '<div class="box"><b>What you get:</b> free food at the shop, plus <b>'+usd(c.reward)+'</b> in your wallet once the pizzeria confirms your visit.</div>'+
-    '<div class="card pad"><h3>What we ask</h3><p class="muted" style="margin:6px 0 0">'+esc(c.task)+' Pick any rating you really feel, good or bad. Your reward is the same either way.</p></div>'+
-    '<div class="box red"><b>Please note:</b> a Google review is never required and never paid. We may ask if you want to leave one. Your choice.</div>'+
-    '<button class="primary" data-go="visit">Accept this visit</button></div>'+nav(v);
+  if(v==='cats'){
+    var big=CATS.map(function(c){var n=BIZ.filter(function(b){return b.cat===c.id&&b.spots>0}).length+(S.mine&&S.mine.cat===c.id?1:0);return '<button class="item" data-cat="'+c.id+'"><div class="th" style="background:'+grad(c.id)+'">'+c.e+'</div><div class="t"><h3>'+c.n+'</h3><div class="muted">'+n+' open campaigns</div></div><span class="reward">'+usd(c.reward)+'</span></button>'}).join('');
+    return '<div class="scroll">'+head('All categories','Pick what you feel like trying.')+'<div class="body"><div class="list">'+big+'</div></div></div>'+nav(v);
+  }
+  if(v==='cat'){
+    var k0=cat(S.catf),L=(S.mine&&S.mine.cat===k0.id?[S.mine]:[]).concat(BIZ.filter(function(b){return b.cat===k0.id}));
+    return '<div class="scroll">'+head(k0.e+' '+k0.n,L.length+' places near you','', 'cats')+'<div class="body"><div class="list">'+L.map(bizItem).join('')+'</div></div></div>'+nav(v);
+  }
+  var b=biz(S.cur),k=cat(b.cat);
+  if(v==='biz'){
+    return '<div class="scroll">'+head('','','', 'cat')+'<div class="body" style="margin-top:-10px"><div class="card" style="padding:0;overflow:hidden"><div class="art" style="height:140px;background:'+grad(b.cat)+';font-size:4.4rem">'+b.e+'</div><div class="pad"><div class="row"><h2>'+esc(b.n)+'</h2><span class="reward" style="font-size:1.4rem">'+usd(b.r)+'</span></div><div class="muted">'+k.n+' · '+b.d+' mi · '+esc(b.about)+'</div></div></div>'+
+    '<div class="box"><b>What you get:</b> the experience plus <b>'+usd(b.r)+'</b> in your wallet once the business confirms your visit.</div>'+
+    '<div class="card"><h3>What we ask</h3><p class="muted" style="margin:6px 0 0">'+esc(b.task||k.task)+' Proof of your visit: '+k.proof+'. Pick any rating you really feel; the reward is the same.</p></div>'+
+    '<div class="box coral"><b>Please note:</b> a Google review is never required and never paid. At the end we may offer to open Google, your choice.</div>'+
+    (b.spots>0?'<button class="btn" data-start="1">Accept this visit</button>':'<button class="btn" disabled>No spots left</button>')+'</div></div>'+nav(v);
+  }
   if(v==='visit'){
-    var allP=S.photos.every(Boolean), can=S.checked&&allP&&S.stars>0&&S.feedback.trim().length>0;
-    var ph=['Food','Menu','Inside'].map(function(l,i){return '<button class="photo '+(S.photos[i]?'on':'')+'" data-photo="'+i+'" aria-label="'+l+' photo">'+(S.photos[i]?miniPhoto(i):'+')+'</button>'}).join('');
-    var st=[1,2,3,4,5].map(function(i){return '<button data-star="'+i+'" class="'+(S.stars>=i?'on':'')+'" aria-label="'+i+' stars">&#9733;</button>'}).join('');
-    return hero('Taste Run visitor','')+'<div class="body"><button class="back" data-go="task">&larr; Back</button><h2>Your visit</h2>'+
-    '<div class="step '+(S.checked?'done':'')+'"><span class="n">1</span><div style="flex:1"><b>Check in at the counter</b><p class="muted">Staff gives you a one-time code so the pizzeria knows you were really there.</p>'+(S.checked?'<span class="pill">Verified with code TP-4821</span>':'<button class="ghost" data-act="checkin">Enter code from counter</button>')+'</div></div>'+
-    '<div class="step '+(allP?'done':'')+'"><span class="n">2</span><div><b>Eat, then add 3 photos</b><p class="muted">Tap each to add a sample photo.</p><div class="photos">'+ph+'</div></div></div>'+
-    '<div class="step '+((S.stars>0&&S.feedback.trim())?'done':'')+'"><span class="n">3</span><div style="flex:1;min-width:0"><b>Private feedback</b><p class="muted">Only the owner sees this. Be honest, any rating is fine.</p><div class="stars">'+st+'</div><textarea id="fb" rows="3" placeholder="What was good? What should they fix?">'+esc(S.feedback)+'</textarea></div></div>'+
-    '<button class="primary" id="done" '+(can?'':'disabled')+' data-act="finish">Submit visit</button></div>'+nav(v);
+    var all3=S.photos.every(Boolean),can=S.checked&&all3&&S.stars>0&&S.feedback.trim().length>0;
+    var ph=k.photos.map(function(l,i){return '<button class="photo '+(S.photos[i]?'on':'')+'" data-photo="'+i+'" style="'+(S.photos[i]?'background:'+grad(b.cat):'')+'">'+(S.photos[i]?b.e:'+ '+l)+'</button>'}).join('');
+    var st=[1,2,3,4,5].map(function(i){return '<button data-star="'+i+'" class="'+(S.stars>=i?'on':'')+'" aria-label="'+i+' stars">★</button>'}).join('');
+    return '<div class="scroll">'+head('Your visit',esc(b.n),'','biz')+'<div class="body">'+
+    '<div class="step '+(S.checked?'done':'')+'"><span class="n">1</span><div style="flex:1"><b>Prove you were there</b><p class="muted">Show '+k.proof+'.</p>'+(S.checked?'<span class="pill">Verified</span>':'<button class="ghost" data-act="checkin">Add proof (demo)</button>')+'</div></div>'+
+    '<div class="step '+(all3?'done':'')+'"><span class="n">2</span><div><b>Add 3 photos</b><p class="muted">Tap each to add a sample photo.</p><div class="photos">'+ph+'</div></div></div>'+
+    '<div class="step '+((S.stars>0&&S.feedback.trim())?'done':'')+'"><span class="n">3</span><div style="flex:1;min-width:0"><b>Private feedback</b><p class="muted">Only the business sees this. Any rating is fine.</p><div class="stars">'+st+'</div><textarea id="fb" rows="3" placeholder="What was good? What should they fix?">'+esc(S.feedback)+'</textarea></div></div>'+
+    '<button class="btn" id="done" '+(can?'':'disabled')+' data-act="finish">Submit visit</button></div></div>'+nav(v);
   }
-  var paid=S.subs.some(function(s){return s.id===99&&s.status==='paid'});
-  return hero('Taste Run visitor','')+'<div class="body"><h2>Visit submitted</h2>'+
-  '<div class="box">'+(paid?'<span class="money">'+usd(c.reward)+'</span><div>Approved and paid. It is in your wallet.</div>':'<b>Waiting for the pizzeria to confirm.</b><div class="muted">Once they approve, '+usd(c.reward)+' lands in your wallet. Switch to "I\'m the pizzeria" and tap Approve &amp; pay.</div>')+'</div>'+
-  '<div class="box gold"><b>Optional:</b> want to share your experience on Google? You don\'t have to. No reward either way, and we won\'t ask again.</div>'+
+  var last=S.pending.concat(S.paid).filter(function(p){return p.b===b.id}).slice(-1)[0], isPaid=last&&last.status==='paid';
+  return '<div class="scroll">'+head('Visit submitted',esc(b.n))+'<div class="body">'+
+  '<div class="box">'+(isPaid?'<div class="reward" style="font-size:1.6rem">'+usd(b.r)+'</div>Approved and paid. It is in your wallet.':'<b>Waiting for '+esc(b.n)+' to confirm.</b><div class="muted">Then '+usd(b.r)+' lands in your wallet.</div>')+'</div>'+
+  (isPaid?'':'<button class="ghost" data-act="demoapprove">Demo shortcut: pretend the business approved</button>')+
+  '<div class="box gold"><b>Optional:</b> want to share your experience on Google? No reward either way, and we won\'t ask again.</div>'+
   '<button class="ghost" data-act="review">'+(S.reviewAsked?'Thanks! Opened Google (demo)':'Leave a Google review (optional)')+'</button>'+
-  '<button class="primary" data-vv="wallet">See my wallet</button></div>'+nav('done');
+  '<button class="btn" data-go="wallet">See my wallet</button></div></div>'+nav('done');
 }
 function walletView(){
-  return '<div class="body"><h2>My wallet</h2>'+
-  '<div class="card pad" style="background:linear-gradient(135deg,#2E7D4F,#1F5A38);color:#fff;border:0"><span style="opacity:.85;font-size:.85rem">Available</span><div class="money" style="color:#fff;font-size:2.4rem">'+usd(S.wallet)+'</div><div style="opacity:.85;font-size:.85rem">'+S.paidVisits+' paid visit'+(S.paidVisits===1?'':'s')+' &middot; '+usd(S.withdrawn)+' withdrawn</div></div>'+
-  '<p class="flow">How you earn: you visit, the pizzeria approves, the reward moves from their funded balance into your wallet. Then you withdraw to your bank or PayPal. It never depends on your rating.</p>'+
-  '<button class="primary" data-act="withdraw" '+(S.wallet>0?'':'disabled')+'>Withdraw '+usd(S.wallet)+' to my bank (demo)</button>'+
-  '<div class="card pad"><h3>History</h3><table style="margin-top:6px">'+(S.paidVisits?'<tr><td>'+esc(S.camp.name)+' visit</td><td style="color:var(--green)">+'+usd(S.camp.reward*S.paidVisits)+'</td></tr>':'<tr><td class="muted">No earnings yet</td><td></td></tr>')+(S.withdrawn?'<tr><td>Withdrawal to bank</td><td>-'+usd(S.withdrawn)+'</td></tr>':'')+'</table></div>'+
-  '<p class="muted">Do visits at different places. Same rule everywhere: you are paid for completing the visit.</p></div>';
+  var rows=S.paid.map(function(p){return '<tr><td>'+esc(p.n)+'</td><td style="color:var(--mint)">+'+usd(p.amt)+'</td></tr>'}).join('')+S.pending.map(function(p){return '<tr><td>'+esc(p.n)+' <span class="pill gold">Pending</span></td><td class="muted">'+usd(p.amt)+'</td></tr>'}).join('')+(S.withdrawn?'<tr><td>Withdrawal to bank</td><td>-'+usd(S.withdrawn)+'</td></tr>':'');
+  return '<div class="body"><div class="card" style="background:linear-gradient(135deg,#19B58A,#0B7A5C);color:#fff"><span style="opacity:.85;font-size:.85rem">Available</span><div style="font-family:var(--display);font-weight:800;font-size:2.4rem">'+usd(S.wallet)+'</div><div style="opacity:.85;font-size:.85rem">'+S.paid.length+' paid visit'+(S.paid.length===1?'':'s')+' · '+usd(S.withdrawn)+' withdrawn</div></div>'+
+  '<button class="btn" data-act="withdraw" '+(S.wallet>0?'':'disabled')+'>Withdraw '+usd(S.wallet)+' to my bank (demo)</button>'+
+  '<div class="card"><h3>History</h3><table style="margin-top:6px">'+(rows||'<tr><td class="muted">No visits yet. Pick a category and accept your first.</td><td></td></tr>')+'</table></div></div>';
+}
+function bnav(){return '<div class="nav" style="grid-template-columns:1fr 1fr"><button data-b="edit" aria-selected="'+(S.bview==='setup')+'">'+I.grid+'Setup</button><button data-b="dash" aria-selected="'+(S.bview==='dash')+'">'+I.home+'Dashboard</button></div>'}
+function business(){
+  var f=S.bform,k=cat(S.bcat);
+  if(S.bview==='setup'){
+    var chips=CATS.map(function(c){return '<button class="opt '+(c.id===S.bcat?'on':'')+'" data-bcat="'+c.id+'">'+c.e+' '+c.n+'</button>'}).join('');
+    var budget=f.slots*f.reward,fee=budget*FEE;
+    return '<div class="scroll">'+head('Launch a campaign','Real people visit. You pay only for verified visits.','For businesses')+'<div class="body">'+
+    '<div><h3>1. Your category</h3><div class="chips" style="margin-top:8px">'+chips+'</div></div>'+
+    '<label class="f">Business name<input type="text" id="f-name" value="'+esc(f.name)+'"></label>'+
+    '<label class="f">What should the visitor do?<textarea id="f-task" rows="3">'+esc(f.task||k.task)+'</textarea></label>'+
+    '<div class="stats"><label class="f">Reward per visit ($)<input type="number" id="f-reward" min="5" max="200" value="'+f.reward+'"></label><label class="f">Number of visits<input type="number" id="f-slots" min="1" max="200" value="'+f.slots+'"></label></div>'+
+    '<div class="card"><h3>What visitors provide</h3><p class="muted" style="margin:6px 0 0">Proof of visit ('+k.proof+'), 3 photos ('+k.photos.join(', ')+') and a private questionnaire.</p></div>'+
+    '<div class="card"><h3>What you pay</h3><table style="margin-top:6px"><tr><td>Visitor rewards ('+f.slots+' × '+usd(f.reward)+')</td><td>'+usd(budget)+'</td></tr><tr><td>Platform fee '+(FEE*100)+'%</td><td>'+usd(fee)+'</td></tr><tr><td><b>Total</b></td><td><b>'+usd(budget+fee)+'</b></td></tr></table></div>'+
+    '<div class="box coral"><b>Fair by design.</b> Rewards are for completing the visit, never tied to a rating or a public review, so feedback stays honest.</div>'+
+    '<button class="btn" data-b="fund">Fund '+usd(budget+fee)+' with Visa •••• 4242 (demo)</button></div></div>'+bnav();
+  }
+  var m=S.mine,done=S.paid.filter(function(p){return p.b==='mine'}).length,pend=S.pending.filter(function(p){return p.b==='mine'}).concat(S.bsub||[]);
+  var mk=cat(m.cat),budget2=m.slots*m.r,fee2=budget2*FEE,out=done*m.r;
+  var pl=pend.length?pend.map(function(p,i){return '<div class="card" style="margin-top:10px;box-shadow:none;border:1px solid var(--line)"><div class="row"><b>'+esc(p.who||'You (demo visitor)')+'</b><span>'+stars(p.stars||4)+'</span></div><p style="margin:6px 0">'+esc(p.t||'Great visit, would come back.')+'</p><div class="row"><span class="muted">3 photos · proof verified</span><button class="btn sm" data-bapprove="'+i+'">Approve & pay '+usd(m.r)+'</button></div></div>'}).join(''):'<p class="muted">Nothing waiting. Visitors who complete your campaign appear here. Try it from the visitor side.</p>';
+  var feed=S.paid.filter(function(p){return p.b==='mine'}).map(function(p){return '<div class="fb"><div class="row"><b>'+esc(p.who||'You (demo visitor)')+' <span class="pill">Paid</span></b><span>'+stars(p.stars||4)+'</span></div><span>'+esc(p.t||'')+'</span></div>'}).join('');
+  return '<div class="scroll">'+head(esc(m.n),mk.n+' campaign','Live')+'<div class="body">'+
+  '<div class="card"><div class="row"><h3>Visits completed</h3><b>'+done+' / '+m.slots+'</b></div><div class="progress"><i style="width:'+Math.max(4,done/m.slots*100)+'%"></i></div></div>'+
+  '<div class="stats"><div class="stat"><span>Waiting for you</span><b>'+pend.length+'</b></div><div class="stat"><span>Spots left</span><b>'+m.spots+'</b></div></div>'+
+  '<div class="card"><h3>Money</h3><table style="margin-top:6px"><tr><td>Funded</td><td>'+usd(budget2+fee2)+'</td></tr><tr><td>Paid to visitors</td><td>'+usd(out)+'</td></tr><tr><td>Platform fee</td><td>'+usd(fee2)+'</td></tr><tr><td>Held for remaining visits</td><td>'+usd(budget2-out)+'</td></tr></table></div>'+
+  '<div><h3>Review & pay</h3>'+pl+'</div>'+
+  '<div class="card"><h3>Paid visits & private feedback</h3>'+(feed||'<p class="muted" style="margin:6px 0 0">Approved visits and their feedback show here.</p>')+'</div>'+
+  '<button class="ghost" data-b="edit">Edit campaign</button></div></div>'+bnav();
+}
+function approveMine(i){
+  var m=S.mine,p,mineP=S.pending.filter(function(x){return x.b==='mine'});
+  if(i<mineP.length){p=mineP[i];S.pending.splice(S.pending.indexOf(p),1);p.status='paid';S.paid.push(p);S.wallet+=p.amt}
+  else{var j=i-mineP.length;p=S.bsub[j];S.bsub.splice(j,1);S.paid.push({n:m.n+' visit',b:'mine',amt:m.r,status:'paid',who:p.who,stars:p.stars,t:p.t})}
+  m.spots=Math.max(0,m.spots-1);toast(usd(m.r)+' paid');
 }
 function bind(){
-  phone.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){S.vview=b.dataset.go;render();phone.scrollIntoView({block:'start'})}});
-  phone.querySelectorAll('[data-vv]').forEach(function(b){b.onclick=function(){S.vview=b.dataset.vv;render()}});
+  phone.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){S.v=b.dataset.go;render()}});
+  phone.querySelectorAll('[data-cat]').forEach(function(b){b.onclick=function(){S.catf=b.dataset.cat;S.v='cat';render()}});
+  phone.querySelectorAll('[data-biz]').forEach(function(b){b.onclick=function(){S.cur=b.dataset.biz;S.v='biz';render()}});
+  phone.querySelectorAll('[data-start]').forEach(function(b){b.onclick=function(){S.stars=0;S.photos=[false,false,false];S.checked=false;S.feedback='';S.v='visit';render()}});
   phone.querySelectorAll('[data-photo]').forEach(function(b){b.onclick=function(){var i=+b.dataset.photo;S.photos[i]=!S.photos[i];render()}});
   phone.querySelectorAll('[data-star]').forEach(function(b){b.onclick=function(){S.stars=+b.dataset.star;render()}});
   var fb=document.getElementById('fb');
   if(fb) fb.oninput=function(){S.feedback=fb.value;document.getElementById('done').disabled=!(S.checked&&S.photos.every(Boolean)&&S.stars>0&&fb.value.trim().length>0)};
-  [['c-name','name','s'],['c-task','task','s'],['c-reward','reward','n'],['c-slots','slots','n'],['c-tray','tray','n']].forEach(function(f){
-    var el=document.getElementById(f[0]); if(!el) return;
-    el.onchange=function(){S.camp[f[1]]=f[2]==='n'?Math.max(1,+el.value||1):el.value;render()};
-  });
-  phone.querySelectorAll('[data-b]').forEach(function(b){b.onclick=function(){
-    if(b.dataset.b==='fund'){S.camp.live=true;S.bview='dash';toast('Campaign funded and live. Visitors can see it now.')}
-    if(b.dataset.b==='edit'){S.bview='create'}
-    render()}});
-  phone.querySelectorAll('[data-approve]').forEach(function(b){b.onclick=function(){
-    var id=+b.dataset.approve;
-    S.subs.forEach(function(s){if(s.id===id)s.status='paid'});
-    if(id===99){S.wallet+=S.camp.reward;S.paidVisits++}
-    toast(usd(S.camp.reward)+' paid to the visitor');
-    render()}});
   phone.querySelectorAll('[data-act]').forEach(function(b){b.onclick=function(){
-    var a=b.dataset.act;
-    if(a==='checkin'){S.checked=true;toast('Code accepted. You are checked in.')}
-    if(a==='finish'){S.vview='done';S.subs.unshift({id:99,n:'You (demo visitor)',stars:S.stars,t:S.feedback,photo:3,status:'pending'});toast('Visit submitted')}
+    var a=b.dataset.act,bz=biz(S.cur);
+    if(a==='checkin'){S.checked=true;toast('Proof accepted')}
+    if(a==='finish'){if(bz.id!=='mine')bz.spots=Math.max(0,bz.spots-1);
+      S.pending.push({n:bz.n+' visit',b:bz.id,amt:bz.r,status:'pending',who:'You (demo visitor)',stars:S.stars,t:S.feedback});
+      S.v='done';toast('Visit submitted')}
+    if(a==='demoapprove'){var p=S.pending.filter(function(x){return x.b===bz.id}).slice(-1)[0];if(p){S.pending.splice(S.pending.indexOf(p),1);p.status='paid';S.paid.push(p);S.wallet+=p.amt;toast(usd(p.amt)+' added to your wallet')}}
     if(a==='review'){S.reviewAsked=true}
     if(a==='withdraw'){toast(usd(S.wallet)+' on its way to your bank (demo)');S.withdrawn+=S.wallet;S.wallet=0}
     render()}});
+  phone.querySelectorAll('[data-bcat]').forEach(function(b){b.onclick=function(){S.bcat=b.dataset.bcat;S.bform.reward=cat(S.bcat).reward;S.bform.task='';render()}});
+  [['f-name','name','s'],['f-task','task','s'],['f-reward','reward','n'],['f-slots','slots','n']].forEach(function(f){var el=document.getElementById(f[0]);if(!el)return;el.onchange=function(){S.bform[f[1]]=f[2]==='n'?Math.max(1,+el.value||1):el.value;render()}});
+  phone.querySelectorAll('[data-b]').forEach(function(b){b.onclick=function(){
+    var a=b.dataset.b;
+    if(a==='fund'){var f=S.bform;S.mine={id:'mine',cat:S.bcat,n:f.name,d:0.4,spots:f.slots,slots:f.slots,r:f.reward,e:cat(S.bcat).e,about:'Your new campaign.',task:f.task||cat(S.bcat).task};
+      S.bsub=[{who:'Priya S.',stars:4,t:'Loved it, staff friendly, a bit loud.'},{who:'Dan K.',stars:3,t:'Good but the menu was hard to read.'}];
+      S.bview='dash';toast('Funded and live. Visitors can see it now.')}
+    if(a==='edit'){S.bview='setup'}
+    if(a==='dash'){if(S.mine)S.bview='dash';else toast('Fund a campaign first')}
+    render()}});
+  phone.querySelectorAll('[data-bapprove]').forEach(function(b){b.onclick=function(){approveMine(+b.dataset.bapprove);render()}});
 }
-document.getElementById('tab-b').onclick=function(){S.tab='b';render()};
 document.getElementById('tab-v').onclick=function(){S.tab='v';render()};
+document.getElementById('tab-b').onclick=function(){S.tab='b';render()};
+S.bform.reward=cat(S.bcat).reward;
 render();
 </script>
 </body>
